@@ -62,7 +62,7 @@ public class App {
                 if(line.length()== 4 && line.matches("^[a-z]+")){
                     wordleDatabaseConnection.addValidWord(i, line);
                 } else {
-                    logger.log(Level.SEVERE, "Unacceptable input, addition to database ignored");
+                    logger.log(Level.SEVERE, "Unacceptable input " + line + ", addition to database ignored");
                 }
                 i++;
             }
@@ -88,6 +88,7 @@ public class App {
                     }else{
                         System.out.println("Sorry. This word is NOT in the the list.\n");
                     }
+                    logger.log(Level.FINE,"user guess was "+ guess);
                 }else{
                     logger.log(Level.WARNING, guess + " was invalid");
                     System.out.println("Invalid guess, guesses must be fully lowercase and must comprise of 4 letters");
