@@ -38,12 +38,14 @@ public class App {
 
         wordleDatabaseConnection.createNewDatabase("words.db");
         if (wordleDatabaseConnection.checkIfConnectionDefined()) {
+            logger.log(Level.INFO, "Wordle created and connected.");
             System.out.println("Wordle created and connected.");
         } else {
             System.out.println("Not able to connect. Sorry!");
             return;
         }
         if (wordleDatabaseConnection.createWordleTables()) {
+            logger.log(Level.INFO, "Wordle structures in place.");
             System.out.println("Wordle structures in place.");
         } else {
             System.out.println("Not able to launch. Sorry!");
@@ -56,25 +58,25 @@ public class App {
             String line;
             int i = 1;
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
+                logger.log(Level.CONFIG, line);
                 if(line.length()== 4 && line.matches("^[a-z]+")){
                     wordleDatabaseConnection.addValidWord(i, line);
                 } else {
-                    System.out.println("Unacceptable input, addition to database ignored");
+                    logger.log(Level.SEVERE, "Unacceptable input, addition to database ignored");
                 }
                 i++;
             }
 
         } catch (IOException e) {
             System.out.println("Not able to load . Sorry!");
-            System.out.println(e.getMessage());
+            logger.log(Level.WARNING, e.getMessage());
             return;
         }
 
         // let's get them to enter a word
 
         try (Scanner scanner = new Scanner(System.in)) {
-            System.out.print("Enter a 4 letter word for a guess or q to quit: ");
+            System.out.print("Welcome!\nEnter a 4 letter word for a guess or q to quit: ");
             String guess = scanner.nextLine();
 
             while (!guess.equals("q")) {
@@ -87,6 +89,7 @@ public class App {
                         System.out.println("Sorry. This word is NOT in the the list.\n");
                     }
                 }else{
+                    logger.log(Level.WARNING, guess + " was invalid");
                     System.out.println("Invalid guess, guesses must be fully lowercase and must comprise of 4 letters");
                 }
 
@@ -94,7 +97,7 @@ public class App {
                 guess = scanner.nextLine();
             }
         } catch (NoSuchElementException | IllegalStateException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, e.getMessage());
         }
 
     }
