@@ -57,7 +57,11 @@ public class App {
             int i = 1;
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
-                wordleDatabaseConnection.addValidWord(i, line);
+                if(line.length()== 4 && line.matches("^[a-z]+")){
+                    wordleDatabaseConnection.addValidWord(i, line);
+                } else {
+                    System.out.println("Unacceptable input, addition to database ignored");
+                }
                 i++;
             }
 
